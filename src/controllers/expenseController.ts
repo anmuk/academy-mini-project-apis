@@ -28,14 +28,18 @@ export class ExpenseController {
     }
 
     async getAll(req: Request, res: Response): Promise<void> {
-        const expenses = await this.service.findAll();
-        const dtos: ExpenseResponseDto[] = expenses.map(e => ({
-            id: e.id,
-            date: e.date,
-            description: e.description,
-            user: e.user,
+        try {
+            const expenses = await this.service.findAll();
+            const dtos: ExpenseResponseDto[] = expenses.map(e => ({
+                id: e.id,
+                date: e.date,
+                description: e.description,
+                user: e.user,
         }));
         res.status(200).json(dtos);
+        } catch {
+        res.status(500).json({ error: "Internal Server Error" });
+        }
     }
 
     async create(req: Request, res: Response): Promise<void> {
@@ -79,6 +83,5 @@ export class ExpenseController {
         }
         res.status(204).send();
     }
-
 
 }

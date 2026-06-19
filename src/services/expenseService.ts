@@ -1,8 +1,9 @@
 import { Expense } from "../models/expense";
 
 const expenses: Expense[] = [
-	new Expense(1, "20-10-2026", "Expense 1", "Aniket"),
-	new Expense(2, "21-10-2026", "Expense 2", "Another Aniket"),
+	new Expense(1, "20-01-2026", "Watch", "Aniket"),
+	new Expense(2, "19-07-2026", "Phone", "John Doe"),
+    new Expense(3, "22-10-2026", "Laptop", "Jane Smith")
 ];
 
 
