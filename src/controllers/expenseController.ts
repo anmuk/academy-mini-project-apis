@@ -82,25 +82,3 @@ export class ExpenseController {
 
 
 }
-
-
-
-
-// Create a new file at `src/controllers/expenseController.ts`.
-
-// The controller is responsible for **handling HTTP** — parsing parameters, calling the service, and returning the correct status codes. It should never touch the data store directly.
-
-// ### Your controller should:
-
-// - Accept an `ExpenseService` instance via the constructor (Dependency Injection)
-// - Implement the following methods:
-
-// | Method | Validates | Success response | Error response |
-// |--------|-----------|-----------------|----------------|
-// | `getAll(req, res)` | — | `200` with array | — |
-// | `getById(req, res)` | `id` is a number | `200` with expense | `400` if NaN, `404` if not found |
-// | `create(req, res)` | `date`, `description`, `user` present in body | `201` with new expense | `400` if fields missing |
-// | `update(req, res)` | `id` is a number | `200` with updated expense | `400` if NaN, `404` if not found |
-// | `delete(req, res)` | `id` is a number | `204` no body | `400` if NaN, `404` if not found |
-
-// > **Rule of thumb:** if it references `req` or `res`, it belongs in the controller — not the service.

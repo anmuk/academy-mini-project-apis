@@ -1,68 +1,15 @@
-// import { Router } from "express";
-
-// const router = Router();
-
-// // Static expense data for now (no database or req.body yet)
-// const expense = {
-// 	id: 1,
-// 	date: "20-10-2026",
-// 	description: "Expense 1",
-// 	user: "Aniket",
-// };
-
-// const expenses = [
-// 	expense,
-// 	{
-// 		id: 2,
-// 		date: "21-10-2026",
-// 		description: "Expense 2",
-// 		user: "Another Aniket",
-// 	},
-// ];
-
-// // Get all expenses
-// router.get("/", (req: Request, res: Response) => {
-// 	res.json(expenses);
-// });
-
-// // Get a single expense
-// router.get("/:id", (req: Request, res: Response) => {
-// 	res.json(expense);
-// });
-
-// // Create a new expense
-// router.post("/", (req: Request, res: Response) => {
-// 	res.status(201).json(expense);
-// });
-
-// // Update an expense
-// router.put("/:id", (req: Request, res: Response) => {
-// 	res.status(200).json(expense);
-// });
-
-// // Delete an expense
-// router.delete("/:id", (req: Request, res: Response) => {
-// 	res.status(204).send();
-// });
-
-// export default router;
-
-
-
-
-
-// Refactor `src/routes/expenseRouter.ts` so that each route **delegates** to the controller. No logic should remain in the route file.
-
 import { Router } from "express";
 import { ExpenseController } from "../controllers/expenseController";
+import { validateBody, validateParams } from "../middleware/validate";
+import { CreateExpenseSchema, IdParamSchema } from "../dtos/expenseDto";
 
 const router = Router();
 const controller = new ExpenseController();
 
-router.get("/",     (req, res) => controller.getAll(req, res));
-router.get("/:id",  (req, res) => controller.getById(req, res));
-router.post("/",    (req, res) => controller.create(req, res));
-router.put("/:id",  (req, res) => controller.update(req, res));
-router.delete("/:id", (req, res) => controller.delete(req, res));
+router.get("/", controller.getAll.bind(controller));
+router.get("/:id", validateParams(IdParamSchema), controller.getById.bind(controller));
+router.post("/", validateBody(CreateExpenseSchema), controller.create.bind(controller));
+router.put("/:id", validateParams(IdParamSchema), validateBody(CreateExpenseSchema), controller.update.bind(controller));
+router.delete("/:id", validateParams(IdParamSchema), controller.delete.bind(controller));
 
 export default router;

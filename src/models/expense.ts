@@ -14,7 +14,7 @@ export class Expense {
         public readonly user: string,
     ){
         if (id <= 0) throw new Error("id must be greater than 0");
-        if (date.trim()) throw new Error("Date cannot be empty");
+        if (!date.trim()) throw new Error("Date cannot be empty");
         if (!description.trim()) throw new Error("Description cannot be empty");
         if (!user.trim()) throw new Error("User cannot be empty");
     }

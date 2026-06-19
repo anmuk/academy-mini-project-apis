@@ -1,3 +1,16 @@
+import { z } from "zod";
+
+
+export const CreateExpenseSchema = z.object({
+	date: z.string().min(1, "Date cannot be empty"),
+	description: z.string().min(1, "Description cannot be empty"),
+	user: z.string().min(1, "User cannot be empty"),
+});
+
+export const IdParamSchema = z.object({
+	id: z.coerce.number().positive({ message: "id must be a positive integer" })
+});
+
 export interface ExpenseResponseDto {
     id: number;
 	date: string;
@@ -5,20 +18,8 @@ export interface ExpenseResponseDto {
 	user: string;
 }
 
-export interface CreateExpenseRequestDto {
-    date: string;
-	description: string;
-	user: string;
-}
 
-    
+// Derive the TypeScript type — no duplication
+export type CreateExpenseRequestDto = z.infer<typeof CreateExpenseSchema>;
+// ^ { date: string; description: string; user: string }
 
-// Create `src/dtos/expenseDto.ts` with **two interfaces**:
-
-// **`ExpenseResponseDto`** — what the client receives. Fields: `id`, `date`, `description`, `user`.
-
-// **`CreateExpenseRequestDto`** — what the client sends when creating an expense. Fields: `date`, `description`, `user`.
-
-// > Notice `id` is absent from the request DTO — clients never supply an `id`, the server generates it.
-
-// **Why two separate types?** If you later add sensitive internal fields to `Expense`, they won't accidentally appear in responses. Each type has one clear job.
